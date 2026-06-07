@@ -1,0 +1,30 @@
+name: frontend pipeline
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/*'       
+    workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './frontend/'
+    steps:
+      - name: check the code
+        uses: actions/checkout@v4 
+      - name: setup node js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          chache: 'npm'
+      - name: install deps
+        run: npm install
+      - name: build the projecct
+        run: npm run build
+      - name: store the build in artifect
+        run: actions/upload-artifact@v7 
+        path: 'frontend/dist/*'
+
+

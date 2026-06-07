@@ -18,13 +18,14 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '20'
-          chache: 'npm'
+          cache: 'npm'
       - name: install deps
         run: npm install
       - name: build the projecct
         run: npm run build
       - name: store the build in artifect
         uses: actions/upload-artifact@v4 
-         path: 'frontend/dist/*'
+         path:
+           -  'frontend/dist/*'
 
 

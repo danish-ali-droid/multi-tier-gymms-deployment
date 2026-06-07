@@ -48,7 +48,7 @@ jobs:
         run: npm install
       - name: test the project
         run: npm test -- --if-present
-        run: echo "Test is completed"
+       
   build-push:
       runs-on: ubuntu-latest
       defaults:

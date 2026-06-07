@@ -24,7 +24,7 @@ jobs:
       - name: build the projecct
         run: npm run build
       - name: store the build in artifect
-        run: actions/upload-artifact@v7 
-        paths: 'frontend/dist/*'
+        uses: actions/upload-artifact@v4 
+        path: 'frontend/dist/*'
 
 

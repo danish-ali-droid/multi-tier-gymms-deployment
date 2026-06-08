@@ -7,11 +7,11 @@ on:
   workflow_dispatch:
 jobs:
   build-and-push:
-  runs-on: ubuntu-latest
-  defaults:
+   runs-on: ubuntu-latest
+   defaults:
     run:
      working-directory: 'db/'
-  steps:
+   steps:
     - name: check the code
       uses: actions/checkout@v4
     - name: configure aws 

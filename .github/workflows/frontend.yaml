@@ -91,7 +91,7 @@ jobs:
        - name: login to server
          uses: appleboy/ssh-action@v1.0.3
          with:
-           host: ${{secrets.FRONTEND_HOST_1}},${{secrets.FRONTEND_HOST_2}}
+           host: ${{secrets.FRONTEND_HOST_1}}
            key: ${{secrets.SSH_KEY}}
            username: ${{secrets.USERNAME}}
            port: ${{secrets.PORT}}

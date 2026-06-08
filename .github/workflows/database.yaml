@@ -70,7 +70,7 @@ jobs:
           echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}}>> .env
           echo POSTGRES_USER=${{secrets.POSTGRES_USER}}>> .env
           docker pull  $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker run -d -p 5000:5000 --name database-container --env-fie .env  $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker run -d -p 5000:5000 --name database-container --env-file .env  $ECR_REGISTRY/$ECR_REPOSITORY:latest
       
 
 

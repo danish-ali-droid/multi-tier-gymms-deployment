@@ -62,7 +62,6 @@ jobs:
         env:
           ECR_REGISTRY: ${{steps.ecr-login.outputs.registry}}
           ECR_REPOSITORY: gym-managment/gym-managment-db
-          IMAGE_TAG: ${{github.sha}}
         run: |
           echo DB_HOST=${{secrets.DB_HOST}}> .env
           echo DB_PORT=${{secrets.DB_PORT}}>> .env
@@ -70,7 +69,7 @@ jobs:
           echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}}>> .env
           echo POSTGRES_USER=${{secrets.POSTGRES_USER}}>> .env
           docker pull  $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        docker run -d -p 5432:5432 --name database-container --env-file .env  $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker run -d -p 5432:5432 --name database-container --env-file .env  $ECR_REGISTRY/$ECR_REPOSITORY:latest
       
 
 

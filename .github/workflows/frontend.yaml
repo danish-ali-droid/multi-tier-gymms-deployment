@@ -77,7 +77,7 @@ jobs:
          uses: aws-actions/ecr-login@v2
        - name: build tag  and push
          env:
-           ECR_REGISTORY: ${{steps.login-ecr.outputs.registory}}
+           ECR_REGISTORY: ${{steps.ecr-login.outputs.registry}}
            ECR_REPOSITORY: gym-managment-frontend
            IMAGE_TAG:  ${{github.sha}}
          run: |

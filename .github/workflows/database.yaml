@@ -1,0 +1,35 @@
+name: database pipeline
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'db/'
+  workflow_dispatch:
+jobs:
+  build-and-push:
+  runs-on: ubuntu-latest
+  defaults:
+    run:
+     working-directory: 'db/'
+  steps:
+    - name: check the code
+      uses: actions/checkout@v4
+    - name: configure aws 
+      uses: aws-actions/configure-aws-credentails@v2
+      with:
+        aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+        aws-access-key: ${{secrets.AWS_ACCESS_KEY}}
+        aws-region: ${{secrets.AWS_REGION}}
+    - name: login ecr
+      id: ecr-login
+      uses: aws-actions/ecr-login@v2
+      env:
+        ECR_REGISTRY: ${{steps.ecr-login.outputs.registry}}
+        ECR_REPOSITORY: gym-managent-db
+        IMAGE_TAG: ${{githun.sha}}
+    - name: build tag and push
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+

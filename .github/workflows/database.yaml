@@ -34,7 +34,7 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
   deploy:
     runs-on: self-hosted
-    defults:
+    defaults:
       run:
         working-directory: './db'
     needs: build-and-push

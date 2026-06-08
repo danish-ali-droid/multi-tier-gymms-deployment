@@ -1,0 +1,65 @@
+name: backend pipeline
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - './backend/'
+  workflow_dispatch:
+jobs:
+ test:
+   runs-on: ubuntu-latest
+   defaults:
+     run:
+       working-directory: './backend/'
+   steps:
+     - name: check the code
+       uses: actions/checkout@v4
+     - name: setup node
+       use: actions/setup-node@v4
+       with:
+         node-version: '20'
+         cache: 'npm'
+         cache-dependency-path: './backend'
+     - name: install dependency
+       run: npm install ci
+     - name: test the project
+       run: echo "Test is successfull"
+ build-and-push:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './backend'
+    needs: test
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+         node-version: '20'
+         cache: 'npm'
+         cache-dependency-path: './backend'
+      - name: install dependencies
+        run: npm install ci
+      - name: configure aws
+        uses: aws-actions/configure-aws-credentails@v4
+        with:
+         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+         aws-access-key: ${{secrets.AWS_ACCESS_KEY}}
+         aws-region: ${{secrets.AWS_REGIION}}
+      - name: login to ecr
+        id: ecr-login
+        uses: aws-actions/ecr-login@v2
+      - name: build push and tag
+        env:
+         ECR_REGESTORY: ${{steps.ecr-login.outputs.registory}}
+         ECR_REPOSETORY: gym-managment-backend  
+         IMAGE_TAG: ${{github.sha}}   
+        run: |
+           docker build -t $ECR_REGISTORY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTORY/$ECR_REPOSITORY:latest
+           docker push $ECR_REGISTORY/$ECR_REPOSITORY:$IMAGE_TAG
+           docker push $ECR_REGISTORY/$ECR_REPOSITORY:latest
+
+
+     
+

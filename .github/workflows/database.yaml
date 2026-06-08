@@ -32,4 +32,52 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+  deploy:
+    runs-on: self-hosted
+    deafults:
+      run:
+        working-directory: './db'
+    needs: build-and-push
+    steps:
+      - name: install docker 
+        run: |
+           sudo apt-get update
+           sudo apt-get install -y ca-certificates curl gnupg
+           sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+           echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.p/docker.list > /dev/null
+         sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+           sudo usermod -aG docker ubuntu
+      - name:  setup docker
+        run: sudo systemctl enable --now docker
+      - name: configure aws
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+         aws-secret-access-key: ${{secrets.AWS_ACCESS_KEY}}
+         aws-region: ${{secrets.AWS_REGION}}
+      - name: login ecr
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: build tag and push
+        env:
+          ECR_REGISTRY: ${{steps.ecr-login.outputs.registry}}
+          ECR_REPOSITORY: gym-managment/gym-managment-db
+          IMAGE_TAG: ${{github.sha}}
+        run: |
+          echo DB_HOST=${{secrets.DB_HOST}}> .env
+          echo DB_PORT=${{secrets.DB_PORT}}>> .env
+          echo POSTGRES_NAME=${{secrets.POSTGRES_NAME}}>> .env
+          echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}}>> .env
+          echo POSTGRES_USER=${{secrets.POSTGRES_USER}}>> .env
+          docker pull  $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker run -d -p 5000:5000 --name database-container --env-fie .env  $ECR_REGISTRY/$ECR_REPOSITORY:latest
+      
+
+
 

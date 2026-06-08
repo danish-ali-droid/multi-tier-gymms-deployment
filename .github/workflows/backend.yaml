@@ -92,11 +92,10 @@ jobs:
       - name: login ecr
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v2
-      - name: setup veriables and img
+      - name: setup docker and deploy img
         env:
           ECR_REGISTRY: ${{steps.ecr-login.outputs.registry}}
           ECR_REPOSITORY: gym-managment/gym-managment-backend
-      - name: set veriables and pull image
         run: |
           cat <<EOF > .env
           DB_HOST=${{secrets.DB_HOST}}

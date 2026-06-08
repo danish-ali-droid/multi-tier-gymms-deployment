@@ -97,7 +97,7 @@ jobs:
           ECR_REGISTRY: ${{steps.ecr-login.outputs.registry}}
           ECR_REPOSITORY: gym-managment/gym-managment-backend
         run: |
-          cat <<EOF > .env
+          cat << 'EOF' > .env
           DB_HOST=${{secrets.DB_HOST}}
           DB_NAME=${{secrets.DB_NAME}}
           DB_PASSWORD=${{secrets.DB_PASSWORD}}

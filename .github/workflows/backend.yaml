@@ -89,6 +89,8 @@ jobs:
          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
          aws-secret-access-key: ${{secrets.AWS_ACCESS_KEY}}
          aws-region: ${{secrets.AWS_REGION}}
+      - name: check ip 
+        run: ip a
       - name: login ecr
         id: ecr-login
         uses: aws-actions/amazon-ecr-login@v2

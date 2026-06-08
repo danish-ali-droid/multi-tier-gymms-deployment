@@ -81,7 +81,10 @@ jobs:
            sudo apt-get update
            sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       - name: setup docker 
-        run: systemctl restart docker
+        run: |
+          sudo su
+          systemctl enable --now docker
+          exit
       - name: configure aws
         uses: aws-actions/configure-aws-credentials@v2
         with:

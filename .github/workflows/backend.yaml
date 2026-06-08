@@ -2,8 +2,7 @@ name: backend pipeline
 on:
   push:
     branches: [ main ]
-    paths:
-      - "backend/**"
+    paths: 'backend/**'
   workflow_dispatch:
 jobs:
  test:

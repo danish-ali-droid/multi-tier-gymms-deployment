@@ -56,9 +56,9 @@ jobs:
          ECR_REPOSETORY: gym-managment/gym-managment-backend  
          IMAGE_TAG: ${{github.sha}}   
         run: |
-           docker build -t $ECR_REGISTORY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTORY/$ECR_REPOSITORY:latest .
-           docker push $ECR_REGISTORY/$ECR_REPOSITORY:$IMAGE_TAG
-           docker push $ECR_REGISTORY/$ECR_REPOSITORY:latest
+           docker build -t $ECR_REGESTORY/$ECR_REPOSETORY:$IMAGE_TAG -t $ECR_REGETORY/$ECR_REPOSETORY:latest .
+           docker push $ECR_REGESTORY/$ECR_REPOSETORY:$IMAGE_TAG
+           docker push $ECR_REGESTORY/$ECR_REPOSETORY:latest
 
 
      

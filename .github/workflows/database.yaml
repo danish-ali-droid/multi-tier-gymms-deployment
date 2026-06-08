@@ -23,11 +23,11 @@ jobs:
     - name: login ecr
       id: ecr-login
       uses: aws-actions/amazon-ecr-login@v2
-      env:
-        ECR_REGISTRY: ${{steps.ecr-login.outputs.registry}}
-        ECR_REPOSITORY: gym-managment/gym-managment-db
-        IMAGE_TAG: ${{github.sha}}
     - name: build tag and push
+      env:
+       ECR_REGISTRY: ${{steps.ecr-login.outputs.registry}}
+       ECR_REPOSITORY: gym-managment/gym-managment-db
+       IMAGE_TAG: ${{github.sha}}
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t ECR_REGISTRY/$ECR_REPOSITORY:latest .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

@@ -22,10 +22,10 @@ jobs:
         aws-region: ${{secrets.AWS_REGION}}
     - name: login ecr
       id: ecr-login
-      uses: aws-actions/ecr-login@v2
+      uses: aws-actions/amazon-ecr-login@v2
       env:
         ECR_REGISTRY: ${{steps.ecr-login.outputs.registry}}
-        ECR_REPOSITORY: gym-managent-db
+        ECR_REPOSITORY: gym-managment/gym-managment-db
         IMAGE_TAG: ${{github.sha}}
     - name: build tag and push
       run: |

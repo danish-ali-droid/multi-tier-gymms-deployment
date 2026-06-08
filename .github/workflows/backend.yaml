@@ -49,11 +49,11 @@ jobs:
          aws-region: ${{secrets.AWS_REGIION}}
       - name: login to ecr
         id: ecr-login
-        uses: aws-actions/ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@v2
       - name: build push and tag
         env:
          ECR_REGESTORY: ${{steps.ecr-login.outputs.registry}}
-         ECR_REPOSETORY: gym-managment-backend  
+         ECR_REPOSETORY: gym-managment/gym-managment-backend  
          IMAGE_TAG: ${{github.sha}}   
         run: |
            docker build -t $ECR_REGISTORY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTORY/$ECR_REPOSITORY:latest

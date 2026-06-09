@@ -1,4 +1,4 @@
-#  Gym Management System — CI/CD & Deployment on AWS
+#  Three-Tier Gym Management System — Automated CI/CD & Cloud Deployment on AWS
 
 
 

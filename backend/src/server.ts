@@ -22,6 +22,7 @@ import logger from './utils/logger';
 const app = express();
 const PORT = parseInt(process.env.PORT || '5000', 10);
 
+app.set('trust proxy', 1);
 // ── Security ──────────────────────────────────────────────────────────────────
 app.use(
   helmet({

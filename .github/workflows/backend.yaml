@@ -103,6 +103,13 @@ jobs:
             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
             echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
             echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+            echo "NODE_ENV=${{secrets.NODE_ENV}}" >> .env
+            echo "FRONTEND_URL=${{secrets.FRONTEND_URL}}" >> .env
+            echo "UPLOAD_DIR=${{secrets.UPLOAD_DIR}}" >> .env
+            echo "MAX_FILE_SIZE=${{secrets.MAX_FILE_SIZE}}" >> .env
+            echo "STORAGE_PROVIDER=${{secrets.STORAGE_PROVIDER}}" >> .env
+            echo "PORT=5000" >> .env
+            echo "JWT_SECRET=${{secrets.JWT_SECRET}}" >> .env
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
             docker rm -f backend-container 
             docker run -d -p 5000:5000 --name backend-container --env-file .env $ECR_REGISTRY/$ECR_REPOSITORY:latest

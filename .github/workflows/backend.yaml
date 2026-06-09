@@ -3,6 +3,8 @@ name: backend pipeline
 on:
   push:
     branches: [ main ]
+    paths:
+       - 'backend/**'
   workflow_dispatch:
 
 jobs:

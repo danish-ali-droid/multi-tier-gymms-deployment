@@ -127,7 +127,7 @@ jobs:
             export  ECR_REPOSITORY=gym-managment/gym-managment-frontend
             echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" > .env
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
-            docker rm -f frontend-contrainer
+            docker rm -f frontend-container
             docker run -d -p 3000:3000 --name frontend-container --env-file .env $ECR_REGISTRY/$ECR_REPOSITORY:latest
             docker ps
             ip a 

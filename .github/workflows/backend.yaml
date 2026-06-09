@@ -94,4 +94,13 @@ jobs:
             export AWS_SECRET_ACCESS_KEY=${{secrets.AWS_ACCESS_KEY}}
             aws ecr get-login-password --region ${{secrets.AWS_REGION}} | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${{secrets.AWS_REGION}}.amazonaws.com
             echo "login successfull" 
-            
+            export  ECR_REGISTRY: ${{ steps.ecr-login.outputs.registry }}
+            export  ECR_REPOSITORY: gym-managment/gym-managment-backend
+            echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+            echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+            docker pull $ECR_REGISTRY/ECR_REPOSITORY:latest
+            docker run -d -p 5000:5000 --name backend-container --env-file .env $ECR_REGISTRY/ECR_REPOSITORY:latest
+            docker ps

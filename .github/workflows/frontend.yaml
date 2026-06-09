@@ -93,7 +93,7 @@ jobs:
       - name: Deploy Frontend to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.FRONTEND_HOST_1 }},$${{ secrets.FRONTEND_HOST_2 }}
+          host: ${{ secrets.FRONTEND_HOST_1 }},${{ secrets.FRONTEND_HOST_2 }}
           key: ${{ secrets.SSH_KEY }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
@@ -125,7 +125,7 @@ jobs:
             export  ECR_REPOSITORY=gym-managment/gym-managment-frontend
             echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" > .env
             docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
-            docker rm -f backend-container
+            docker rm -f frontend-contrainer
             docker run -d -p 3000:3000 --name frontend-container --env-file .env $ECR_REGISTRY/$ECR_REPOSITORY:latest
             docker ps
             ip a 

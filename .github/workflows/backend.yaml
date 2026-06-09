@@ -73,10 +73,12 @@ jobs:
           script_stop: true
           script: |
             sudo apt update
+            if ! command -v aws &> /dev/null; then
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             sudo apt install unzip
             unzip awscliv2.zip
             sudo ./aws/install
+            else
             sudo apt-get install -y ca-certificates curl gnupg
             sudo install -m 0755 -d /etc/apt/keyrings
             sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg --output /etc/apt/keyrings/docker.asc

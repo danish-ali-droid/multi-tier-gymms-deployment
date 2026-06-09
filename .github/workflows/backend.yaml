@@ -92,4 +92,4 @@ jobs:
             export AWS_SECRET_ACCESS_KEY="${secrets.AWS_ACCESS_KEY}"
             aws ecr get-login-password --region ${{secrets.AWS_REGION}} | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.${secrets.AWS_REGION}.amazonaws.comi
             echo "login successfull" 
-
+            fi
